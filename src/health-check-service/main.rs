@@ -3,10 +3,10 @@ use std::env;
 use authentication::auth_client::AuthClient;
 use authentication::{SignInRequest, SignOutRequest, SignUpRequest};
 use tokio::time::{sleep, Duration};
-use tonic::{Request, Response};
+use tonic::Request;
 use uuid::Uuid;
 
-use crate::authentication::{StatusCode, SignOutResponse};
+use crate::authentication::StatusCode;
 
 pub mod authentication {
     tonic::include_proto!("authentication");
@@ -58,7 +58,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             session_token: response.session_token,
         });
 
-        let response: Response<SignOutResponse> = client.sign_out(request).await?;
+        let response = client.sign_out(request).await?;
 
         println!(
             "SIGN OUT RESPONSE STATUS: {:?}",
